@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/login.dart';
-import 'package:event_organizer/model/usermodel.dart';
+import 'package:event_organizer/model/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,9 +19,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   final firstNameEditingcontroller = new TextEditingController();
   final secondNameEditingcontroller = new TextEditingController();
+  final addharidEditingcontroller = new TextEditingController();
   final emailEditingcontroller = new TextEditingController();
   final passwordEditingcontroller = new TextEditingController();
   final confirmPasswordEditingcontroller = new TextEditingController();
+  final mobilenoEditingcontroller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,73 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
+    final addharid = TextFormField(
+      autofocus: false,
+      controller: addharidEditingcontroller,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{10,}$');
 
+        if (value!.isEmpty) {
+          return ("First Namecannot be empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Please 10 Digit of addar");
+        }
+      },
+      onSaved: (value) {
+        firstNameEditingcontroller.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        fillColor: Colors.grey[800],
+        filled: true,
+        prefixIcon: Icon(
+          Icons.account_circle,
+          color: Color.fromARGB(255, 123, 182, 230),
+        ),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Addhar Name",
+        hintStyle: TextStyle(
+            color: Color.fromARGB(255, 123, 182, 230),
+            fontWeight: FontWeight.bold),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+
+    final mobile = TextFormField(
+      autofocus: false,
+      controller: mobilenoEditingcontroller,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{10,}$');
+
+        if (value!.isEmpty) {
+          return ("First Namecannot be empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Please 10 Digit of mobile no");
+        }
+      },
+      onSaved: (value) {
+        firstNameEditingcontroller.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        fillColor: Colors.grey[800],
+        filled: true,
+        prefixIcon: Icon(
+          Icons.account_circle,
+          color: Color.fromARGB(255, 123, 182, 230),
+        ),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Addhar Name",
+        hintStyle: TextStyle(
+            color: Color.fromARGB(255, 123, 182, 230),
+            fontWeight: FontWeight.bold),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
     final secondNamefield = TextFormField(
       autofocus: false,
       controller: secondNameEditingcontroller,
@@ -251,6 +319,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       SizedBox(
                         height: 20,
                       ),
+                      mobile,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      addharid,
+                      SizedBox(
+                        height: 20,
+                      ),
                       passwordfield,
                       SizedBox(
                         height: 20,
@@ -287,6 +363,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     userModel.email = user!.email;
     userModel.uid = user.uid;
+    userModel.addhar = addharidEditingcontroller.text;
+    userModel.mobileno = mobilenoEditingcontroller.text;
     userModel.firstName = firstNameEditingcontroller.text;
     userModel.secondName = secondNameEditingcontroller.text;
 

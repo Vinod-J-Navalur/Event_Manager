@@ -1,6 +1,7 @@
 import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/multihost.dart';
 import 'package:event_organizer/Screen/registration.dart';
+import 'package:event_organizer/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -185,7 +186,7 @@ class _loginscreenState extends State<loginscreen> {
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successfull"),
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => upload_Details()))
+                      MaterialPageRoute(builder: (context) => HomeScreen()))
                 });
       } catch (e) {
         Fluttertoast.showToast(msg: "Invalid Credentials");
@@ -199,7 +200,7 @@ class _loginscreenState extends State<loginscreen> {
         //print(user);
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const upload_Details()));
+            builder: (BuildContext context) => const HomeScreen()));
       }
     });
   }

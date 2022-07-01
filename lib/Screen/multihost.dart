@@ -1,17 +1,20 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_organizer/Screen/homescreen.dart';
+import 'package:event_organizer/Screen/login.dart';
 import 'package:event_organizer/host/hostcloud.dart';
-import 'package:event_organizer/model/UserModel.dart';
+import 'package:event_organizer/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 
 class upload_Details extends StatefulWidget {
@@ -22,6 +25,8 @@ class upload_Details extends StatefulWidget {
 }
 
 class _upload_DetailsState extends State<upload_Details> {
+  String? _selectedTime;
+
   final _formkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   final EventEditingcontroller = new TextEditingController();
@@ -34,6 +39,56 @@ class _upload_DetailsState extends State<upload_Details> {
   FirebaseStorage _storageRef = FirebaseStorage.instance;
   List<String?> _arrImagesUrls = [];
   DateTime? _selectedDate;
+
+  final databaseRef = FirebaseDatabase.instance.ref().child("user");
+  //User Variable
+  User? user;
+  String? Zone;
+  // To check wheather user has logged in or not
+  bool isloggedin = false;
+
+  final _auth = FirebaseAuth.instance;
+
+  getUser() async {
+    User? firebaseUser = _auth.currentUser;
+    await firebaseUser?.reload();
+    firebaseUser = _auth.currentUser;
+    print("hi praveen ");
+
+    if (firebaseUser != null) {
+      setState(() {
+        this.user = firebaseUser;
+        this.isloggedin = true;
+      });
+    }
+  }
+
+  int _currentIndex = 0;
+
+  _onTap() async {
+    if (_currentIndex == 4) {
+      await _auth.signOut();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const loginscreen()));
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) =>
+              _children[_currentIndex])); // this has changed
+    }
+  }
+
+  final List<Widget> _children = [
+    const HomeScreen(),
+    const user_profile(),
+    const upload_Details(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentification();
+    this.getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,34 +199,7 @@ class _upload_DetailsState extends State<upload_Details> {
         ),
       ),
     );
-    final time = TextFormField(
-      autofocus: false,
-      controller: timeEditingcontroller,
-      keyboardType: TextInputType.name,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Time is compulsary");
-        }
-      },
-      onSaved: (value) {
-        EventEditingcontroller.text = value!;
-      },
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        fillColor: Colors.grey[800],
-        filled: true,
-        prefixIcon: Icon(
-          Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
-        ),
-        contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
-        hintText: "Time",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Host"),
@@ -215,7 +243,14 @@ class _upload_DetailsState extends State<upload_Details> {
               SizedBox(
                 height: 10,
               ),
-              time,
+              ElevatedButton.icon(
+                  icon: Icon(Icons.punch_clock),
+                  onPressed: _show,
+                  label: Text(
+                    _selectedTime != null ? _selectedTime! : 'Select Time',
+                    style: const TextStyle(fontSize: 30),
+                  )),
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                   onPressed: () {
                     uploadFunction(_SelectedFiles);
@@ -226,7 +261,40 @@ class _upload_DetailsState extends State<upload_Details> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle_outline_outlined),
+              label: "Add Event"),
+          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Lists"),
+          BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout"),
+        ],
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.greenAccent,
+        unselectedItemColor: Colors.white,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _onTap();
+        },
+      ),
     );
+  }
+
+  Future<void> _show() async {
+    final TimeOfDay? result =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (result != null) {
+      setState(() {
+        _selectedTime = result.format(context);
+      });
+      print(_selectedTime);
+    }
   }
 
   _selectDate(BuildContext context) async {
@@ -275,13 +343,13 @@ class _upload_DetailsState extends State<upload_Details> {
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     Party party = Party();
-
+    party.uid = user!.uid;
     party.party_name = EventEditingcontroller.text;
     party.image = url;
     party.location = locationEditingcontroller.text;
     party.discription = discriptionEditingcontroller.text;
-    party.date = timeEditingcontroller.text;
-    party.time = timeEditingcontroller.text;
+    party.date = endDateTimeEditingController.text;
+    party.time = _selectedTime!.toString();
 
     await firebaseFirestore
         .collection("party")
@@ -305,5 +373,14 @@ class _upload_DetailsState extends State<upload_Details> {
       print("Something worng : " + e.toString());
     }
     setState(() {});
+  }
+
+  checkAuthentification() async {
+    _auth.authStateChanges().listen((user) {
+      if (user == null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const loginscreen()));
+      }
+    });
   }
 }
