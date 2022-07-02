@@ -37,6 +37,7 @@ dependencies:
   date_time_picker: ^2.1.0
   firebase_database: ^9.0.16
   posts: ^0.0.2
+  google_fonts: ^3.0.1
   flutter:
     sdk: flutter
   

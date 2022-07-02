@@ -46,17 +46,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "First Name",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -79,17 +78,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Addhar Name",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintText: "Addhar No",
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -113,17 +111,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Addhar Name",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintText: "Mobile No",
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -142,17 +139,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Second Name",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -175,17 +171,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.mail,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Email",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -208,17 +203,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.vpn_key,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Password",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -240,17 +234,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.vpn_key,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Confirm Password",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -258,7 +251,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final signupButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color.fromARGB(255, 123, 182, 230),
+      color: Colors.purpleAccent,
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -274,24 +267,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("EVENTS"),
-          centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 123, 182, 230),
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => loginscreen()));
-            },
-          ),
-        ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
               child: Container(
-            color: Colors.black,
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(36),
               child: Form(
@@ -302,7 +282,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     children: <Widget>[
                       CircleAvatar(
                         radius: 75,
-                        backgroundImage: AssetImage("assets/h.jpg"),
+                        backgroundImage: AssetImage("assets/party.png"),
                       ),
                       SizedBox(
                         height: 45,
@@ -374,7 +354,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .set(userModel.toMap());
 
     Fluttertoast.showToast(msg: "Registered Successfull");
-
-    Navigator.pop(context);
   }
 }

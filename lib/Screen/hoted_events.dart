@@ -1,20 +1,26 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:event_organizer/Screen/hoted_events.dart';
+import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/login.dart';
 import 'package:event_organizer/Screen/multihost.dart';
-import 'package:event_organizer/model/usermodel.dart';
+import 'package:event_organizer/model/UserModel.dart';
 import 'package:event_organizer/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class hosted extends StatefulWidget {
+  const hosted({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<hosted> createState() => _hostedState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _hostedState extends State<hosted> {
+  @override
   final Stream<QuerySnapshot> party =
       FirebaseFirestore.instance.collection('party').snapshots();
 
@@ -31,19 +37,34 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (BuildContext context) => const loginscreen()));
     } else {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-              _children[_currentIndex])); // this has changed
+          builder: (BuildContext context) => _childern[_currentIndex]));
     }
   }
 
-  final List<Widget> _children = [
+  final List<Widget> _childern = [
     const HomeScreen(),
     const user_profile(),
     const upload_Details(),
-    const hosted(),
+    const hosted()
   ];
 
   String? image;
+  String? name;
+
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      name = loggedInUser.firstName;
+      print(name);
+
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +84,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Text('waiting');
                     }
-
                     final data = snapshot.requireData;
-
+                    int a = data.size;
                     return ListView.builder(
                       itemCount: data.size,
                       itemBuilder: (context, index) {
                         image = data.docs[index]['image'];
+                        if (user!.uid != data.docs[index]['uid']) {
+                          return Text('no party hosted');
+                        }
                         return Card(
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

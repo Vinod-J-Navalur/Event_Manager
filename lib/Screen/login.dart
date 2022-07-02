@@ -47,17 +47,16 @@ class _loginscreenState extends State<loginscreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.grey[00],
         filled: true,
         prefixIcon: Icon(
           Icons.mail,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Email",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -80,17 +79,16 @@ class _loginscreenState extends State<loginscreen> {
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.vpn_key,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Password",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -98,7 +96,7 @@ class _loginscreenState extends State<loginscreen> {
     final logiinButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color.fromARGB(255, 123, 182, 230),
+      color: Colors.purpleAccent,
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -114,11 +112,11 @@ class _loginscreenState extends State<loginscreen> {
     );
 
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
               child: Container(
-            color: Colors.black,
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(36),
               child: Form(
@@ -129,7 +127,7 @@ class _loginscreenState extends State<loginscreen> {
                     children: <Widget>[
                       CircleAvatar(
                         radius: 75,
-                        backgroundImage: AssetImage("assets/h.jpg"),
+                        backgroundImage: AssetImage("assets/party.png"),
                       ),
                       SizedBox(
                         height: 45,
@@ -150,7 +148,7 @@ class _loginscreenState extends State<loginscreen> {
                           Text(
                             "Don't have an account ? ",
                             style: TextStyle(
-                              color: Color.fromARGB(255, 123, 182, 230),
+                              color: Colors.deepPurple,
                             ),
                           ),
                           GestureDetector(
@@ -164,11 +162,11 @@ class _loginscreenState extends State<loginscreen> {
                             child: Text(
                               "SignUp",
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 123, 182, 230),
+                                  color: Colors.deepPurple,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15),
                             ),
-                          )
+                          ),
                         ],
                       )
                     ],

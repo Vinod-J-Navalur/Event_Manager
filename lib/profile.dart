@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_organizer/Screen/homescreen.dart';
+import 'package:event_organizer/Screen/hoted_events.dart';
 import 'package:event_organizer/Screen/login.dart';
 import 'package:event_organizer/Screen/multihost.dart';
 import 'package:event_organizer/model/UserModel.dart';
@@ -42,6 +43,7 @@ class _user_profileState extends State<user_profile> {
     const HomeScreen(),
     const user_profile(),
     const upload_Details(),
+    const hosted()
   ];
 
   @override
@@ -53,8 +55,6 @@ class _user_profileState extends State<user_profile> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-      name = loggedInUser.firstName;
-      print(name);
 
       setState(() {});
     });
@@ -63,11 +63,6 @@ class _user_profileState extends State<user_profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile"),
-        centerTitle: true,
-        elevation: 0,
-      ),
       backgroundColor: Colors.white,
       body: Center(
           child: SingleChildScrollView(
@@ -79,20 +74,12 @@ class _user_profileState extends State<user_profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                  "Event Organizer",
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Race'),
+                CircleAvatar(
+                  radius: 65,
+                  backgroundImage: AssetImage("assets/party.png"),
                 ),
-                const SizedBox(height: 30),
                 SizedBox(
-                  height: 100,
-                  child: Image.asset(
-                    "assets/Event.png",
-                    fit: BoxFit.contain,
-                  ),
+                  height: 40,
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -100,143 +87,93 @@ class _user_profileState extends State<user_profile> {
                   children: [
                     Icon(
                       Icons.person,
-                      size: 50,
+                      color: Colors.black,
                     ),
                     Container(
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black, // Set border color
-                              width: 2.0), // Set border width
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              10.0)), // Set rounded corner radius
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 0,
-                                color: Colors.black,
-                                offset: Offset(1, 3))
-                          ] // Make rounded corner of border
-                          ),
                       child: Text(
-                        "Name : ${loggedInUser.firstName}",
-                        style: TextStyle(fontSize: 20),
+                        "${loggedInUser.firstName}",
+                        style:
+                            TextStyle(fontSize: 20, color: Colors.deepPurple),
                       ),
-                    )
+                    ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                Divider(
+                  color: Colors.deepPurple,
+                ),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.phone,
-                      size: 50,
+                      color: Colors.black,
                     ),
                     Container(
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black, // Set border color
-                              width: 2.0), // Set border width
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              10.0)), // Set rounded corner radius
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 0,
-                                color: Colors.black,
-                                offset: Offset(1, 3))
-                          ] // Make rounded corner of border
-                          ),
                       child: Text(
-                        "Mobile: +91 ${loggedInUser.mobileno}",
-                        style: TextStyle(fontSize: 20),
+                        "+91 ${loggedInUser.mobileno}",
+                        style:
+                            TextStyle(fontSize: 20, color: Colors.deepPurple),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(height: 20),
+                Divider(
+                  color: Colors.deepPurple,
+                ),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.mail,
-                      size: 50,
+                      color: Colors.black,
                     ),
                     Container(
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black, // Set border color
-                              width: 2.0), // Set border width
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              10.0)), // Set rounded corner radius
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 0,
-                                color: Colors.black,
-                                offset: Offset(1, 3))
-                          ] // Make rounded corner of border
-                          ),
                       child: Text(
-                        "Mail : ${loggedInUser.email}",
-                        style: TextStyle(fontSize: 18),
+                        "${loggedInUser.email}",
+                        style:
+                            TextStyle(fontSize: 18, color: Colors.deepPurple),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(height: 20),
+                Divider(
+                  color: Colors.deepPurple,
+                ),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
                       Icons.document_scanner,
-                      size: 50,
+                      color: Colors.black,
                     ),
                     Container(
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(10),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black, // Set border color
-                              width: 2.0), // Set border width
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              10.0)), // Set rounded corner radius
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 0,
-                                color: Colors.black,
-                                offset: Offset(1, 3))
-                          ] // Make rounded corner of border
-                          ),
                       child: Text(
                         "Aadhar : ${loggedInUser.addhar}",
-                        style: TextStyle(fontSize: 20),
+                        style:
+                            TextStyle(fontSize: 20, color: Colors.deepPurple),
                       ),
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 5),
-                  child: SizedBox(
-                    width: 300,
-                    height: 65,
-                    child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.party_mode_outlined),
-                        label: Text("My Events")),
-                  ),
+                Divider(
+                  color: Colors.deepPurple,
                 ),
+                const SizedBox(height: 5),
               ],
             ),
           ),
@@ -244,19 +181,33 @@ class _user_profileState extends State<user_profile> {
       )),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_outline_outlined),
-              label: "Add Event"),
-          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Lists"),
-          BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout"),
+              icon: Icon(Icons.home, color: Colors.black),
+              label: "Home",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person, color: Colors.black),
+              label: "Profile",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon:
+                  Icon(Icons.add_circle_outline_outlined, color: Colors.black),
+              label: "Add Event",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt, color: Colors.black),
+              label: "Lists",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.logout, color: Colors.black),
+              label: "Logout",
+              backgroundColor: Colors.black),
         ],
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.greenAccent,
-        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.deepPurple,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.black,
         onTap: (index) {
           setState(() {
             _currentIndex = index;

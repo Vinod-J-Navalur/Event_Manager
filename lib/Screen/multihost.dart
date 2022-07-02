@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_organizer/Screen/homescreen.dart';
+import 'package:event_organizer/Screen/hoted_events.dart';
 import 'package:event_organizer/Screen/login.dart';
 import 'package:event_organizer/host/hostcloud.dart';
 import 'package:event_organizer/profile.dart';
@@ -40,7 +41,6 @@ class _upload_DetailsState extends State<upload_Details> {
   List<String?> _arrImagesUrls = [];
   DateTime? _selectedDate;
 
-  final databaseRef = FirebaseDatabase.instance.ref().child("user");
   //User Variable
   User? user;
   String? Zone;
@@ -53,7 +53,6 @@ class _upload_DetailsState extends State<upload_Details> {
     User? firebaseUser = _auth.currentUser;
     await firebaseUser?.reload();
     firebaseUser = _auth.currentUser;
-    print("hi praveen ");
 
     if (firebaseUser != null) {
       setState(() {
@@ -81,6 +80,7 @@ class _upload_DetailsState extends State<upload_Details> {
     const HomeScreen(),
     const user_profile(),
     const upload_Details(),
+    const hosted()
   ];
 
   @override
@@ -107,17 +107,16 @@ class _upload_DetailsState extends State<upload_Details> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
         hintText: "Event Name",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -126,7 +125,7 @@ class _upload_DetailsState extends State<upload_Details> {
       controller: discriptionEditingcontroller,
       keyboardType: TextInputType.multiline,
       minLines: 1,
-      maxLines: 10,
+      maxLines: 5,
       validator: (value) {
         if (value!.isEmpty) {
           return ("location cannot be empty");
@@ -137,17 +136,16 @@ class _upload_DetailsState extends State<upload_Details> {
       },
       textInputAction: TextInputAction.newline,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
-        hintText: "Discription of event",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintText: "Description of event",
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -167,17 +165,16 @@ class _upload_DetailsState extends State<upload_Details> {
       },
       textInputAction: TextInputAction.newline,
       decoration: InputDecoration(
-        fillColor: Colors.grey[800],
+        fillColor: Colors.pinkAccent[00],
         filled: true,
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Color.fromARGB(255, 123, 182, 230),
+          color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
         hintText: "Location of event",
-        hintStyle: TextStyle(
-            color: Color.fromARGB(255, 123, 182, 230),
-            fontWeight: FontWeight.bold),
+        hintStyle:
+            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -191,7 +188,15 @@ class _upload_DetailsState extends State<upload_Details> {
       },
       textInputAction: TextInputAction.next,
       decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.date_range),
+        hintStyle: TextStyle(
+          color: Colors.deepPurple,
+        ),
+        fillColor: Color.fromARGB(255, 245, 240, 242),
+        filled: true,
+        prefixIcon: Icon(
+          Icons.date_range,
+          color: Colors.deepPurple,
+        ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Select Date",
         border: OutlineInputBorder(
@@ -201,14 +206,12 @@ class _upload_DetailsState extends State<upload_Details> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Host"),
-        elevation: 0,
-      ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
+              SizedBox(height: 20),
               _SelectedFiles.length == 0
                   ? const Padding(
                       padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
@@ -223,39 +226,62 @@ class _upload_DetailsState extends State<upload_Details> {
                   onPressed: () {
                     SelectImage();
                   },
+                  style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.pinkAccent[00]),
                   child: Text("Select Image")),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              event_name,
               SizedBox(
-                height: 10,
+                height: 50,
+                width: 330,
+                child: event_name,
               ),
-              location,
+              const SizedBox(height: 20),
               SizedBox(
-                height: 10,
+                height: 50,
+                width: 330,
+                child: location,
               ),
-              discription,
+              const SizedBox(height: 20),
               SizedBox(
-                height: 10,
+                height: 50,
+                width: 330,
+                child: discription,
               ),
-              dateTimeField,
+              const SizedBox(height: 20),
               SizedBox(
-                height: 10,
+                height: 50,
+                width: 330,
+                child: dateTimeField,
               ),
-              ElevatedButton.icon(
-                  icon: Icon(Icons.punch_clock),
-                  onPressed: _show,
-                  label: Text(
-                    _selectedTime != null ? _selectedTime! : 'Select Time',
-                    style: const TextStyle(fontSize: 30),
-                  )),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 50,
+                width: 330,
+                child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(0, 242, 245, 248)),
+                    icon: Icon(
+                      Icons.punch_clock,
+                      color: Colors.deepPurple,
+                    ),
+                    onPressed: _show,
+                    label: Text(
+                      _selectedTime != null ? _selectedTime! : 'Select Time',
+                      style: const TextStyle(
+                          fontSize: 30, color: Colors.deepPurple),
+                    )),
+              ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(primary: Colors.purpleAccent),
                   onPressed: () {
                     uploadFunction(_SelectedFiles);
                   },
-                  icon: Icon(Icons.file_upload),
+                  icon: Icon(
+                    Icons.file_upload,
+                  ),
                   label: Text("Upload Event")),
             ],
           ),
@@ -263,19 +289,33 @@ class _upload_DetailsState extends State<upload_Details> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_outline_outlined),
-              label: "Add Event"),
-          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Lists"),
-          BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout"),
+              icon: Icon(Icons.home, color: Colors.black),
+              label: "Home",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person, color: Colors.black),
+              label: "Profile",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle_outline_outlined,
+                  color: Colors.deepPurple),
+              label: "Add Event",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt, color: Colors.black),
+              label: "Lists",
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.logout, color: Colors.black),
+              label: "Logout",
+              backgroundColor: Colors.black),
         ],
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.greenAccent,
-        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.deepPurple,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.black,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -309,7 +349,7 @@ class _upload_DetailsState extends State<upload_Details> {
               colorScheme: const ColorScheme.dark(
                 primary: Colors.deepPurple,
                 onPrimary: Colors.white,
-                surface: Colors.blueGrey,
+                surface: Colors.pinkAccent,
                 onSurface: Colors.black54,
               ),
               dialogBackgroundColor: Colors.white,
