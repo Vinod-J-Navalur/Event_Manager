@@ -6,15 +6,18 @@ class Party {
   String? discription;
   String? date;
   String? time;
+  int? price;
 
-  Party(
-      {this.uid,
-      this.party_name,
-      this.image,
-      this.location,
-      this.discription,
-      this.date,
-      this.time});
+  Party({
+    this.uid,
+    this.party_name,
+    this.image,
+    this.location,
+    this.discription,
+    this.date,
+    this.time,
+    this.price,
+  });
 
   factory Party.fromMap(map) {
     return Party(
@@ -24,7 +27,8 @@ class Party {
         location: map['location'],
         discription: map['discription'],
         date: map['date'],
-        time: map['time']);
+        time: map['time'],
+        price: map['price']);
   }
 
   Map<String, dynamic> toMap() {
@@ -35,7 +39,8 @@ class Party {
       'location': location,
       'discription': discription,
       'date': date,
-      'time': time
+      'time': time,
+      'index': price,
     };
   }
 }

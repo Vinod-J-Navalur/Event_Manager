@@ -1,4 +1,6 @@
+import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/login.dart';
+import 'package:event_organizer/host/event_fetcher.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: loginscreen(),
+      //home: loginscreen(),
+      home: HomeScreen(),
+      //home: Event_Fetcher(),
     );
   }
 }

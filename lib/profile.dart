@@ -179,41 +179,43 @@ class _user_profileState extends State<user_profile> {
           ),
         ),
       )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.black),
-              label: "Home",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.black),
+      bottomNavigationBar: SizedBox(
+        height: 65.0,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.explore),
+                label: "Home",
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline_rounded),
               label: "Profile",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon:
-                  Icon(Icons.add_circle_outline_outlined, color: Colors.black),
-              label: "Add Event",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt, color: Colors.black),
-              label: "Lists",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.logout, color: Colors.black),
-              label: "Logout",
-              backgroundColor: Colors.black),
-        ],
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.deepPurple,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-          _onTap();
-        },
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline_rounded,
+                    color: Colors.deepPurple),
+                label: "Add Event",
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt, color: Colors.black),
+                label: "Lists",
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.logout, color: Colors.black),
+                label: "Logout",
+                backgroundColor: Colors.black),
+          ],
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.black,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            _onTap();
+          },
+        ),
       ),
     );
   }

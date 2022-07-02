@@ -28,6 +28,7 @@ class upload_Details extends StatefulWidget {
 class _upload_DetailsState extends State<upload_Details> {
   String? _selectedTime;
 
+  static int count = 0;
   final _formkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   final EventEditingcontroller = new TextEditingController();
@@ -287,41 +288,43 @@ class _upload_DetailsState extends State<upload_Details> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.black),
-              label: "Home",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.black),
+      bottomNavigationBar: SizedBox(
+        height: 65.0,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.explore),
+                label: "Home",
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline_rounded),
               label: "Profile",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_outline_outlined,
-                  color: Colors.deepPurple),
-              label: "Add Event",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt, color: Colors.black),
-              label: "Lists",
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.logout, color: Colors.black),
-              label: "Logout",
-              backgroundColor: Colors.black),
-        ],
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.deepPurple,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-          _onTap();
-        },
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline_rounded,
+                    color: Colors.deepPurple),
+                label: "Add Event",
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt, color: Colors.black),
+                label: "Lists",
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.logout, color: Colors.black),
+                label: "Logout",
+                backgroundColor: Colors.black),
+          ],
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.black,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            _onTap();
+          },
+        ),
       ),
     );
   }
@@ -383,6 +386,7 @@ class _upload_DetailsState extends State<upload_Details> {
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     Party party = Party();
+
     party.uid = user!.uid;
     party.party_name = EventEditingcontroller.text;
     party.image = url;
@@ -390,11 +394,16 @@ class _upload_DetailsState extends State<upload_Details> {
     party.discription = discriptionEditingcontroller.text;
     party.date = endDateTimeEditingController.text;
     party.time = _selectedTime!.toString();
+    party.price = count;
 
     await firebaseFirestore
         .collection("party")
         .doc(party.party_name)
         .set(party.toMap());
+
+    count += 1;
+
+    print(count);
 
     Fluttertoast.showToast(msg: "updated Successfully");
   }
