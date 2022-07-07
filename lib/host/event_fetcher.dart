@@ -107,21 +107,3 @@ class _Event_FetcherState extends State<Event_Fetcher> {
     );
   }
 }
-
-class Fetchs extends StatefulWidget {
-  Evnt eve;
-  Fetchs(this.eve, {Key? key}) : super(key: key);
-
-  @override
-  State<Fetchs> createState() => _FetchState();
-}
-
-class _FetchState extends State<Fetchs> {
-  late Evnt eve;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(eve.party_name.toString()),
-    );
-  }
-}

@@ -76,99 +76,103 @@ class _user_profileState extends State<user_profile> {
               children: <Widget>[
                 CircleAvatar(
                   radius: 65,
-                  backgroundImage: AssetImage("assets/party.png"),
+                  backgroundImage: AssetImage("assets/profile.png"),
                 ),
                 SizedBox(
                   height: 40,
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
+                Card(
+                  elevation: 20.0,
+                  color: Colors.white,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: ListTile(
+                    leading: Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "${loggedInUser.firstName}",
-                        style:
-                            TextStyle(fontSize: 20, color: Colors.deepPurple),
-                      ),
+                    title: Text(
+                      "${loggedInUser.firstName}",
+                      style: TextStyle(
+                          color: Colors.teal[900],
+                          fontFamily: 'SourceSans',
+                          fontSize: 20.0),
                     ),
-                  ],
+                  ),
                 ),
                 Divider(
                   color: Colors.deepPurple,
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.phone,
-                      color: Colors.black,
+                Card(
+                  elevation: 20.0,
+                  color: Colors.white,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.phone_android,
+                      color: Theme.of(context).primaryColor,
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "+91 ${loggedInUser.mobileno}",
-                        style:
-                            TextStyle(fontSize: 20, color: Colors.deepPurple),
-                      ),
-                    )
-                  ],
+                    title: Text(
+                      "+91 ${loggedInUser.mobileno}",
+                      style: TextStyle(
+                          color: Colors.teal[900],
+                          fontFamily: 'SourceSans',
+                          fontSize: 20.0),
+                    ),
+                  ),
                 ),
                 Divider(
                   color: Colors.deepPurple,
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
+                Card(
+                  elevation: 20.0,
+                  color: Colors.white,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: ListTile(
+                    leading: Icon(
                       Icons.mail,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "${loggedInUser.email}",
-                        style:
-                            TextStyle(fontSize: 18, color: Colors.deepPurple),
-                      ),
-                    )
-                  ],
+                    title: Text(
+                      "${loggedInUser.email}",
+                      style: TextStyle(
+                          color: Colors.teal[900],
+                          fontFamily: 'SourceSans',
+                          fontSize: 20.0),
+                    ),
+                  ),
                 ),
                 Divider(
                   color: Colors.deepPurple,
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
+                Card(
+                  elevation: 20.0,
+                  color: Colors.white,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: ListTile(
+                    leading: Icon(
                       Icons.document_scanner,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Aadhar : ${loggedInUser.addhar}",
-                        style:
-                            TextStyle(fontSize: 20, color: Colors.deepPurple),
-                      ),
+                    title: Text(
+                      "Aadhar: ${loggedInUser.addhar}",
+                      style: TextStyle(
+                          color: Colors.teal[900],
+                          fontFamily: 'SourceSans',
+                          fontSize: 20.0),
                     ),
-                  ],
+                  ),
                 ),
                 Divider(
                   color: Colors.deepPurple,

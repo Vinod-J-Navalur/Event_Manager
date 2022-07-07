@@ -1,12 +1,18 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_organizer/host/Event.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:event_organizer/constant/color.dart';
 import 'package:event_organizer/constant/text_style.dart';
 import 'package:event_organizer/host/event_fetcher.dart';
 
 import 'package:event_organizer/model/ui_helper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+
+import 'login.dart';
 
 class EventDetailPage extends StatefulWidget {
   final Evnt event;
@@ -17,6 +23,28 @@ class EventDetailPage extends StatefulWidget {
 
 class _EventDetailPageState extends State<EventDetailPage>
     with TickerProviderStateMixin {
+  User? user;
+
+  static int ind = 0;
+  bool isloggedin = false;
+
+  List<String> parties = [];
+
+  final _auth = FirebaseAuth.instance;
+
+  getUser() async {
+    User? firebaseUser = _auth.currentUser;
+    await firebaseUser?.reload();
+    firebaseUser = _auth.currentUser;
+
+    if (firebaseUser != null) {
+      setState(() {
+        this.user = firebaseUser;
+        this.isloggedin = true;
+      });
+    }
+  }
+
   late Evnt event;
   late AnimationController controller;
   late AnimationController bodyScrollAnimationController;
@@ -25,8 +53,11 @@ class _EventDetailPageState extends State<EventDetailPage>
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
   bool isFavorite = false;
+
   @override
   void initState() {
+    this.checkAuthentification();
+    this.getUser();
     event = widget.event;
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
@@ -187,7 +218,9 @@ class _EventDetailPageState extends State<EventDetailPage>
                   ),
                 ),
               ),
-              color: hasTitle ? Theme.of(context).primaryColor : Colors.white,
+              color: hasTitle
+                  ? Theme.of(context).primaryColor
+                  : Colors.transparent,
             ),
             if (hasTitle)
               Text(event.party_name.toString(),
@@ -313,7 +346,23 @@ class _EventDetailPageState extends State<EventDetailPage>
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               primary: Theme.of(context).primaryColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        title: Text('Booking Confirmation !'),
+                        content: Text(
+                            'Are you sure you want to book for the event ?'),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                uploadFile();
+                                Navigator.pop(context);
+                              },
+                              child: Text('Book'))
+                        ],
+                      ));
+            },
             child: Text(
               "Book Now",
               style: titleStyle.copyWith(
@@ -323,5 +372,27 @@ class _EventDetailPageState extends State<EventDetailPage>
         ],
       ),
     );
+  }
+
+  Future uploadFile() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    print("reached");
+    String? uid = user!.uid;
+
+    await firebaseFirestore.collection("books").doc(uid).update({
+      'party_name': FieldValue.arrayUnion([event.party_name.toString()])
+    });
+    ind = ind + 1;
+
+    Fluttertoast.showToast(msg: "Event Booked Successfully");
+  }
+
+  checkAuthentification() async {
+    _auth.authStateChanges().listen((user) {
+      if (user == null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const loginscreen()));
+      }
+    });
   }
 }

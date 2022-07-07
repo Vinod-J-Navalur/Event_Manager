@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:event_organizer/model/ui_helper.dart';
 import 'package:event_organizer/model/datetime_utils.dart';
 import 'package:event_organizer/constant/text_style.dart';
+import 'package:event_organizer/utils/app_utils.dart';
+import 'package:event_organizer/constant/color.dart';
 
 import '../host/Event.dart';
 import 'event_detail_page.dart';
@@ -21,9 +23,14 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final Stream<QuerySnapshot> party =
       FirebaseFirestore.instance.collection('party').snapshots();
+
+  late ScrollController scrollController;
+  late AnimationController controller;
+  late AnimationController opacityController;
+  late Animation<double> opacity;
 
   User? user = FirebaseAuth.instance.currentUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -43,6 +50,32 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void initState() {
+    scrollController = ScrollController();
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..forward();
+    opacityController = AnimationController(
+        vsync: this, duration: const Duration(microseconds: 1));
+    opacity = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+      curve: Curves.linear,
+      parent: opacityController,
+    ));
+    scrollController.addListener(() {
+      opacityController.value = offsetToOpacity(
+          currentOffset: scrollController.offset,
+          maxOffset: scrollController.position.maxScrollExtent / 2);
+    });
+    super.initState();
+  }
+
+  void dispose() {
+    controller.dispose();
+    scrollController.dispose();
+    opacityController.dispose();
+    super.dispose();
+  }
+
   final List<Widget> _children = [
     const HomeScreen(),
     const user_profile(),
@@ -57,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
     List<Evnt> event = [];
     return Scaffold(
       body: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(12),
         height: double.maxFinite,
         child: StreamBuilder<QuerySnapshot>(
             stream: party,
@@ -72,8 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
               final data = snapshot.requireData;
 
               return ListView.builder(
+                shrinkWrap: true,
+                primary: false,
                 itemCount: data.size,
                 itemBuilder: (context, index) {
+                  var animation = Tween<double>(begin: 800.0, end: 0.0).animate(
+                    CurvedAnimation(
+                      parent: controller,
+                      curve: Interval((1 / data.docs.length) * index, 1.0,
+                          curve: Curves.decelerate),
+                    ),
+                  );
                   Evnt eve = Evnt(
                       party_name: data.docs[index]['party_name'],
                       image: data.docs[index]['image'],
@@ -89,12 +133,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                            Container(
-                              width: 80,
-                              height: 100,
-                              child: Image.network(
-                                data.docs[index]['image'],
-                                fit: BoxFit.cover,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                color: imgBG,
+                                width: 80,
+                                height: 100,
+                                child: Image.network(
+                                  data.docs[index]['image'],
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             UIHelper.horizontalSpace(8),
@@ -102,9 +150,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
+                                UIHelper.verticalSpace(8),
                                 Text(
                                     DateTimeUtils.getFullDate(
-                                        DateTime.parse("2001-12-12")),
+                                        DateTime.parse("2001-06-28")),
                                     style: monthStyle),
                                 UIHelper.verticalSpace(8),
                                 Text("${data.docs[index]['party_name']}",
@@ -116,7 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         size: 16,
                                         color: Theme.of(context).primaryColor),
                                     UIHelper.horizontalSpace(4),
-                                    Text("${data.docs[index]['location']}",
+                                    Text(
+                                        "${data.docs[index]['location']}"
+                                            .toString()
+                                            .toUpperCase(),
                                         style: subtitleStyle),
                                   ],
                                 ),

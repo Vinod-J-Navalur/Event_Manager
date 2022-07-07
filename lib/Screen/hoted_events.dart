@@ -86,13 +86,12 @@ class _hostedState extends State<hosted> {
                     }
                     final data = snapshot.requireData;
                     int a = data.size;
+                    bool flag = false;
                     return ListView.builder(
                       itemCount: data.size,
                       itemBuilder: (context, index) {
                         image = data.docs[index]['image'];
-                        if (user!.uid != data.docs[index]['uid']) {
-                          return Text('no party hosted');
-                        }
+
                         return Card(
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
