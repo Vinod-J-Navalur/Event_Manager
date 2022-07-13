@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="816a15f8-13c7-40ae-aeeb-7a761f03ae3b" name="Default Changelist" comment="guru update maadu 22222222">
+      <change afterPath="$PROJECT_DIR$/lib/Screen/hosted_event_detail.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Screen/event_detail_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/event_detail_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Screen/homescreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/homescreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Screen/hoted_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/hoted_events.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Screen/registration.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/registration.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/UserModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/UserModel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/profile.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="2BNTa9h8m9uVmlhl4VlLJORKRfx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/utils" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\AndroidStudioProjects\Event_organizer\lib\utils" />
+      <recent name="D:\AndroidStudioProjects\Event_organizer\lib" />
+      <recent name="D:\AndroidStudioProjects\Event_organizer\lib\Screen" />
+      <recent name="D:\AndroidStudioProjects\Event_organizer\lib\model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="816a15f8-13c7-40ae-aeeb-7a761f03ae3b" name="Default Changelist" comment="" />
+      <created>1656745604821</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1656745604821</updated>
+    </task>
+    <task id="LOCAL-00001" summary="guru update maadu">
+      <created>1656791997218</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1656791997218</updated>
+    </task>
+    <task id="LOCAL-00002" summary="guru update maadu 22222222">
+      <created>1657209138907</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1657209138907</updated>
+    </task>
+    <task id="LOCAL-00003" summary="guru update maadu 22222222">
+      <created>1657209416518</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1657209416518</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="guru update maadu" />
+    <MESSAGE value="guru update maadu 22222222" />
+    <option name="LAST_COMMIT_MESSAGE" value="guru update maadu 22222222" />
+  </component>
+</project>

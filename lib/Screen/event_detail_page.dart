@@ -1,3 +1,5 @@
+import 'dart:collection';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,6 +55,9 @@ class _EventDetailPageState extends State<EventDetailPage>
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
   bool isFavorite = false;
+
+  final Stream<QuerySnapshot> user1 =
+      FirebaseFirestore.instance.collection('user').snapshots();
 
   @override
   void initState() {
@@ -123,6 +128,7 @@ class _EventDetailPageState extends State<EventDetailPage>
                           buildOrganizeInfo(),
                           UIHelper.verticalSpace(24),
                           //buildEventLocation(),
+
                           UIHelper.verticalSpace(124),
                           //...List.generate(10, (index) => ListTile(title: Text("Dummy content"))).toList(),
                         ],
@@ -356,7 +362,16 @@ class _EventDetailPageState extends State<EventDetailPage>
                         actions: [
                           ElevatedButton(
                               onPressed: () {
-                                uploadFile();
+                                // if (status()) {
+                                //   print("already booked !");
+                                // } else {
+                                //   print("not booked");
+                                // }
+                                //Status();
+
+                                //uploadFile();
+
+                                status();
                                 Navigator.pop(context);
                               },
                               child: Text('Book'))
@@ -376,15 +391,56 @@ class _EventDetailPageState extends State<EventDetailPage>
 
   Future uploadFile() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    print("reached");
+    //print("reached");
     String? uid = user!.uid;
 
-    await firebaseFirestore.collection("books").doc(uid).update({
+    //final ucheck = await firebaseFirestore.collection('books').get();
+    //print("uid " + uid);
+    await firebaseFirestore.collection("user").doc(user!.uid).update({
       'party_name': FieldValue.arrayUnion([event.party_name.toString()])
     });
     ind = ind + 1;
 
     Fluttertoast.showToast(msg: "Event Booked Successfully");
+  }
+
+  Future status() async {
+    int flag = 0;
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        String dat = documentSnapshot.data().toString();
+        String str = ':';
+        List<String> findat = dat.split(str);
+
+        String next = findat[3];
+        String par = event.party_name.toString();
+
+        print(par);
+        print(next);
+        //
+        // if (next.contains(par)) {
+        //   //print("it's bookeeed");
+        //   flag = true;
+        // }
+
+        if (next.contains(par) == true) {
+          flag = 1;
+        }
+
+        //print(next);
+      }
+    });
+
+    if (flag == 1) {
+      Fluttertoast.showToast(msg: "Event Already Booked Profile> My Events");
+    } else {
+      uploadFile();
+    }
+    print(flag);
   }
 
   checkAuthentification() async {

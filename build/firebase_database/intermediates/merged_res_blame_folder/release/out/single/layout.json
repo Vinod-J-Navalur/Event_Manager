@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "D:\\AndroidStudioProjects\\Event_organizer\\build\\firebase_database\\intermediates\\merged_res\\release\\layout\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\vinod\\.gradle\\caches\\transforms-3\\5cb8da75145cc57c292ee7afd98a938a\\transformed\\core-1.6.0\\res\\layout\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\Event_organizer\\build\\firebase_database\\intermediates\\merged_res\\release\\layout\\notification_template_part_chronometer.xml",
+        "source": "C:\\Users\\vinod\\.gradle\\caches\\transforms-3\\5cb8da75145cc57c292ee7afd98a938a\\transformed\\core-1.6.0\\res\\layout\\notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\Event_organizer\\build\\firebase_database\\intermediates\\merged_res\\release\\layout\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\vinod\\.gradle\\caches\\transforms-3\\5cb8da75145cc57c292ee7afd98a938a\\transformed\\core-1.6.0\\res\\layout\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\Event_organizer\\build\\firebase_database\\intermediates\\merged_res\\release\\layout\\custom_dialog.xml",
+        "source": "C:\\Users\\vinod\\.gradle\\caches\\transforms-3\\5cb8da75145cc57c292ee7afd98a938a\\transformed\\core-1.6.0\\res\\layout\\custom_dialog.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\Event_organizer\\build\\firebase_database\\intermediates\\merged_res\\release\\layout\\notification_template_part_time.xml",
+        "source": "C:\\Users\\vinod\\.gradle\\caches\\transforms-3\\5cb8da75145cc57c292ee7afd98a938a\\transformed\\core-1.6.0\\res\\layout\\notification_template_part_time.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\Event_organizer\\build\\firebase_database\\intermediates\\merged_res\\release\\layout\\notification_action.xml",
+        "source": "C:\\Users\\vinod\\.gradle\\caches\\transforms-3\\5cb8da75145cc57c292ee7afd98a938a\\transformed\\core-1.6.0\\res\\layout\\notification_action.xml"
+    }
+]

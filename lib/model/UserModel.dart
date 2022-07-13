@@ -5,6 +5,7 @@ class UserModel {
   String? mobileno;
   String? firstName;
   String? secondName;
+  List<dynamic>? party_name;
 
   UserModel(
       {this.uid,
@@ -12,7 +13,8 @@ class UserModel {
       this.addhar,
       this.firstName,
       this.secondName,
-      this.mobileno});
+      this.mobileno,
+      this.party_name});
 
   factory UserModel.fromMap(map) {
     return UserModel(
@@ -21,7 +23,8 @@ class UserModel {
         addhar: map['addhar'],
         firstName: map['firstName'],
         secondName: map['secondName'],
-        mobileno: map['mobileno']);
+        mobileno: map['mobileno'],
+        party_name: map['party_name']);
   }
 
   Map<String, dynamic> toMap() {
@@ -31,7 +34,8 @@ class UserModel {
       'addhar': addhar,
       'firstName': firstName,
       'secondName': secondName,
-      'mobileno': mobileno
+      'mobileno': mobileno,
+      'party_name': party_name
     };
   }
 }

@@ -347,6 +347,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.mobileno = mobilenoEditingcontroller.text;
     userModel.firstName = firstNameEditingcontroller.text;
     userModel.secondName = secondNameEditingcontroller.text;
+    userModel.party_name = [''];
 
     await firebaseFirestore
         .collection("user")

@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     } else {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) =>
-          _children[_currentIndex])); // this has changed
+              _children[_currentIndex])); // this has changed
     }
   }
 
