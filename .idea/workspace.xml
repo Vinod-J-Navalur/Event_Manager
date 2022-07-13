@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="816a15f8-13c7-40ae-aeeb-7a761f03ae3b" name="Default Changelist" comment="guru update maadu 22222222">
-      <change afterPath="$PROJECT_DIR$/lib/Screen/hosted_event_detail.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Screen/event_detail_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/event_detail_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Screen/homescreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/homescreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Screen/hoted_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/hoted_events.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Screen/registration.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Screen/registration.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/UserModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/UserModel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/profile.dart" afterDir="false" />
-    </list>
+    <list default="true" id="816a15f8-13c7-40ae-aeeb-7a761f03ae3b" name="Default Changelist" comment="guru update maadu 22222222" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
