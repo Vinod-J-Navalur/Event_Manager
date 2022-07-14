@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/login.dart';
@@ -110,6 +108,13 @@ class _hostedState extends State<hosted> with TickerProviderStateMixin {
         //padding: const EdgeInsets.all(12),
         //padding: const EdgeInsets.all(12),
         height: double.maxFinite,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/bg.jpeg"),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+
         child: StreamBuilder<QuerySnapshot>(
             stream: party,
             builder:

@@ -14,6 +14,12 @@ import 'package:get/get.dart';
 
 import 'login.dart';
 
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+  }
+}
+
 class HostedEventDetailPage extends StatefulWidget {
   final Evnt event;
   HostedEventDetailPage(this.event, {Key? key}) : super(key: key);
@@ -416,10 +422,11 @@ class _HostedEventDetailPageState extends State<HostedEventDetailPage>
                       color: Colors.white,
                       child: Column(
                         children: [
-                          Card(child: Text('The Guest names: ')),
+                          //Card(child: Text('The Guest names: ')),
                           Card(
                             child: Text(
-                              data.docs[index]['firstName'].toString(),
+                              'Guest : ' +
+                                  data.docs[index]['firstName'].toString(),
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),

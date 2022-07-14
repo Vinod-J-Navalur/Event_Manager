@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_organizer/Screen/MyEvent.dart';
 import 'package:event_organizer/Screen/event_detail_page.dart';
 import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/hoted_events.dart';
@@ -17,6 +18,12 @@ import 'host/Event.dart';
 import 'model/datetime_utils.dart';
 import 'model/ui_helper.dart';
 
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+  }
+}
+
 class user_profile extends StatefulWidget {
   const user_profile({Key? key}) : super(key: key);
 
@@ -27,6 +34,8 @@ class user_profile extends StatefulWidget {
 class _user_profileState extends State<user_profile> {
   final Stream<QuerySnapshot> party =
       FirebaseFirestore.instance.collection('party').snapshots();
+  final Stream<QuerySnapshot> user1 =
+      FirebaseFirestore.instance.collection('user').snapshots();
 
   String? image;
 
@@ -197,178 +206,26 @@ class _user_profileState extends State<user_profile> {
                     height: 60.0,
                     width: 100.0,
                     child: ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: SingleChildScrollView(
-                                      child: Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 16),
-                                        //padding: const EdgeInsets.all(12),
-                                        height: double.maxFinite,
-                                        child: StreamBuilder<QuerySnapshot>(
-                                            stream: party,
-                                            builder: (BuildContext context,
-                                                AsyncSnapshot<QuerySnapshot>
-                                                    snapshot) {
-                                              if (snapshot.hasError) {
-                                                return Text("Something");
-                                              }
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Text('waiting');
-                                              }
-                                              final data = snapshot.requireData;
-                                              int a = data.size;
-                                              return ListView.builder(
-                                                itemCount: data.size,
-                                                itemBuilder: (context, index) {
-                                                  image =
-                                                      data.docs[index]['image'];
-                                                  if (user!.uid !=
-                                                      data.docs[index]['uid']) {
-                                                    Evnt eve1 = Evnt(
-                                                        party_name:
-                                                            data.docs[index]
-                                                                ['party_name'],
-                                                        image: data.docs[index]
-                                                            ['image'],
-                                                        location:
-                                                            data.docs[index]
-                                                                ['location'],
-                                                        discription:
-                                                            data.docs[index]
-                                                                ['discription'],
-                                                        date: data.docs[index]
-                                                            ['date'],
-                                                        time: data.docs[index]
-                                                            ['time'],
-                                                        price: 0);
-                                                    event1.add(eve1);
-                                                    return Container();
-                                                  }
-                                                  if (user!.uid ==
-                                                      data.docs[index]['uid']) {
-                                                    Evnt eve2 = Evnt(
-                                                        party_name:
-                                                            data.docs[index]
-                                                                ['party_name'],
-                                                        image: data.docs[index]
-                                                            ['image'],
-                                                        location:
-                                                            data.docs[index]
-                                                                ['location'],
-                                                        discription:
-                                                            data.docs[index]
-                                                                ['discription'],
-                                                        date: data.docs[index]
-                                                            ['date'],
-                                                        time: data.docs[index]
-                                                            ['time'],
-                                                        price: 0);
-                                                    event1.add(eve2);
-                                                  }
-
-                                                  return InkWell(
-                                                      child: Card(
-                                                          child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                            ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          16),
-                                                              child: Container(
-                                                                color: imgBG,
-                                                                width: 80,
-                                                                height: 100,
-                                                                child: Image
-                                                                    .network(
-                                                                  image
-                                                                      .toString(),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            UIHelper
-                                                                .horizontalSpace(
-                                                                    8),
-                                                            Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  UIHelper
-                                                                      .verticalSpace(
-                                                                          8),
-                                                                  Text(
-                                                                      DateTimeUtils.getFullDate(
-                                                                          DateTime.parse(
-                                                                              "2001-06-28")),
-                                                                      style:
-                                                                          monthStyle),
-                                                                  UIHelper
-                                                                      .verticalSpace(
-                                                                          8),
-                                                                  Text(
-                                                                      "${data.docs[index]['party_name']}",
-                                                                      style:
-                                                                          titleStyle),
-                                                                  UIHelper
-                                                                      .verticalSpace(
-                                                                          8),
-                                                                  Row(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Icon(
-                                                                          Icons
-                                                                              .location_on,
-                                                                          size:
-                                                                              16,
-                                                                          color:
-                                                                              Theme.of(context).primaryColor),
-                                                                      UIHelper
-                                                                          .horizontalSpace(
-                                                                              4),
-                                                                      Text(
-                                                                          "${data.docs[index]['location']}"
-                                                                              .toString()
-                                                                              .toUpperCase(),
-                                                                          style:
-                                                                              subtitleStyle),
-                                                                    ],
-                                                                  ),
-                                                                ]),
-                                                          ])),
-                                                      onTap: () {
-                                                        print(index);
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    EventDetailPage(
-                                                                        event1[
-                                                                            index])));
-                                                      });
-                                                },
-                                              );
-                                            }),
-                                      ),
-                                    ),
-                                  ));
-                        },
-                        child: Text('My Events'))),
+                      style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        primary: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: () {
+                        SizedBox(
+                          height: 100.0,
+                        );
+                        int count = 0;
+                        showDialog(
+                            context: context, builder: (_) => eventinfo(0));
+                      },
+                      child: Text(
+                        "Guest List",
+                        style: titleStyle.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.normal),
+                      ),
+                    )),
               ],
             ),
           ),
@@ -413,5 +270,86 @@ class _user_profileState extends State<user_profile> {
         ),
       ),
     );
+  }
+
+  Widget eventinfo(int count) {
+    List<dynamic> guests = [];
+    int ind = -1;
+    print("reached");
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      margin: EdgeInsets.only(top: 100.0),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: user1,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text("Something");
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text('waiting');
+            }
+            final data = snapshot.requireData;
+
+            if (true) {
+              Card(
+                child: Text('event'),
+              );
+            }
+            return ListView.builder(
+                itemCount: data.size,
+                itemBuilder: (context, index) {
+                  if (count <= 1 && data.docs[index]['uid'] == user!.uid) {
+                    guests = data.docs[index]['party_name'];
+                    count += 1;
+                    ind = -1;
+                  }
+
+                  List<String> strs = guests.map((e) => e.toString()).toList();
+
+                  print(strs);
+                  print(count);
+                  if (count == 1) {
+                    count += 1;
+                    return eve(strs);
+                  }
+
+                  return Container();
+                });
+          }),
+    );
+  }
+
+  Widget eve(List<String> eves) {
+    return Column(children: [
+      ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(8),
+          itemCount: eves.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Card(
+                      child: Text(
+                        ('Event ' +
+                            (index + 1).toString() +
+                            ':  ' +
+                            eves[index]),
+                        style: titleStyle,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.deepPurple,
+                    ),
+                  ],
+                ),
+              ),
+            );
+            ;
+          }),
+    ]);
   }
 }
