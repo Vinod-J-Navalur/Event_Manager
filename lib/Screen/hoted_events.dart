@@ -32,8 +32,10 @@ class _hostedState extends State<hosted> with TickerProviderStateMixin {
   late Animation<double> opacity;
 
   @override
-  final Stream<QuerySnapshot> party =
-      FirebaseFirestore.instance.collection('party').snapshots();
+  final Stream<QuerySnapshot> party = FirebaseFirestore.instance
+      .collection('party')
+      .orderBy('date', descending: true)
+      .snapshots();
 
   User? user = FirebaseAuth.instance.currentUser;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -134,6 +136,7 @@ class _hostedState extends State<hosted> with TickerProviderStateMixin {
                   if (user!.uid != data.docs[index]['uid']) {
                     Evnt eve1 = Evnt(
                         party_name: data.docs[index]['party_name'],
+                        email: data.docs[index]['email'],
                         image: data.docs[index]['image'],
                         location: data.docs[index]['location'],
                         discription: data.docs[index]['discription'],
@@ -154,6 +157,7 @@ class _hostedState extends State<hosted> with TickerProviderStateMixin {
                   if (user!.uid == data.docs[index]['uid']) {
                     Evnt eve2 = Evnt(
                         party_name: data.docs[index]['party_name'],
+                        email: data.docs[index]['email'],
                         image: data.docs[index]['image'],
                         location: data.docs[index]['location'],
                         discription: data.docs[index]['discription'],
@@ -188,8 +192,8 @@ class _hostedState extends State<hosted> with TickerProviderStateMixin {
                                 children: [
                                   UIHelper.verticalSpace(8),
                                   Text(
-                                      DateTimeUtils.getFullDate(
-                                          DateTime.parse("2001-06-28")),
+                                      DateTimeUtils.getFullDate(DateTime.parse(
+                                          "${data.docs[index]['date']}")),
                                       style: monthStyle),
                                   UIHelper.verticalSpace(8),
                                   Text("${data.docs[index]['party_name']}",
@@ -236,17 +240,13 @@ class _hostedState extends State<hosted> with TickerProviderStateMixin {
               label: "Profile",
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline_rounded,
-                    color: Colors.deepPurple),
+                icon:
+                    Icon(Icons.add_circle_outline_rounded, color: Colors.black),
                 label: "Add Event",
                 backgroundColor: Colors.black),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt, color: Colors.black),
                 label: "Lists",
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.logout, color: Colors.black),
-                label: "Logout",
                 backgroundColor: Colors.black),
           ],
           currentIndex: _currentIndex,

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/hoted_events.dart';
 import 'package:event_organizer/Screen/login.dart';
+import 'package:event_organizer/constant/loading.dart';
 import 'package:event_organizer/host/hostcloud.dart';
 import 'package:event_organizer/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class upload_Details extends StatefulWidget {
   const upload_Details({Key? key}) : super(key: key);
@@ -36,11 +38,13 @@ class _upload_DetailsState extends State<upload_Details> {
   final discriptionEditingcontroller = new TextEditingController();
   final endDateTimeEditingController = TextEditingController();
   final timeEditingcontroller = new TextEditingController();
+  final priceEditingcontroller = new TextEditingController();
   String? url;
   List<XFile> _SelectedFiles = [];
   FirebaseStorage _storageRef = FirebaseStorage.instance;
   List<String?> _arrImagesUrls = [];
   DateTime? _selectedDate;
+  bool loading = false;
 
   //User Variable
   User? user;
@@ -108,16 +112,17 @@ class _upload_DetailsState extends State<upload_Details> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //fillColor: Colors.indigo[00],
+        //filled: true,
+        labelText: 'Event Name',
         prefixIcon: Icon(
           Icons.account_circle,
-          color: Colors.deepPurple,
+          color: Theme.of(context).primaryColor,
         ),
         contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
-        hintText: "Event Name",
-        hintStyle:
-            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+        //hintText: "Event Name",
+        hintStyle: TextStyle(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -129,7 +134,7 @@ class _upload_DetailsState extends State<upload_Details> {
       maxLines: 5,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("location cannot be empty");
+          return ("Description cannot be empty");
         }
       },
       onSaved: (value) {
@@ -138,15 +143,16 @@ class _upload_DetailsState extends State<upload_Details> {
       textInputAction: TextInputAction.newline,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Description of event',
         prefixIcon: Icon(
-          Icons.account_circle,
-          color: Colors.deepPurple,
+          Icons.description,
+          color: Theme.of(context).primaryColor,
         ),
         contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
-        hintText: "Description of event",
-        hintStyle:
-            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+        //hintText: "Description of event",
+        hintStyle: TextStyle(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -167,15 +173,16 @@ class _upload_DetailsState extends State<upload_Details> {
       textInputAction: TextInputAction.newline,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Location of event',
         prefixIcon: Icon(
-          Icons.account_circle,
-          color: Colors.deepPurple,
+          Icons.add_location_alt,
+          color: Theme.of(context).primaryColor,
         ),
         contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
-        hintText: "Location of event",
-        hintStyle:
-            TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+        //hintText: "Location of event",
+        hintStyle: TextStyle(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -190,101 +197,168 @@ class _upload_DetailsState extends State<upload_Details> {
       textInputAction: TextInputAction.next,
       decoration: const InputDecoration(
         hintStyle: TextStyle(
-          color: Colors.deepPurple,
+          color: Colors.indigo,
         ),
         fillColor: Color.fromARGB(255, 245, 240, 242),
-        filled: true,
+        //filled: true,
+        labelText: 'Select Date',
         prefixIcon: Icon(
           Icons.date_range,
-          color: Colors.deepPurple,
+          color: Colors.blueAccent,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Select Date",
+        //hintText: "Select Date",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),
     );
 
+    final price = TextFormField(
+      autofocus: false,
+      controller: priceEditingcontroller,
+      keyboardType: TextInputType.number,
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{3,}$');
+        if (value!.isEmpty) {
+          return ("Price cannot be empty");
+        }
+      },
+      onSaved: (value) {
+        priceEditingcontroller.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        fillColor: Colors.indigo[00],
+        //filled: true,
+        labelText: " ₹ Price ",
+        prefixIcon: Icon(
+          Icons.account_balance_wallet,
+          color: Theme.of(context).primaryColor,
+        ),
+        contentPadding: EdgeInsets.fromLTRB(10, 15, 20, 15),
+        //hintText: " ₹ Price ",
+        hintStyle: TextStyle(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              _SelectedFiles.length == 0
-                  ? const Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
-                      child: Text("Select only one image"),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 16, 15, 0),
-                      child: Image.file(File(_SelectedFiles[0].path),
-                          width: 250, height: 250, fit: BoxFit.fill),
-                    ),
-              OutlinedButton(
-                  onPressed: () {
-                    SelectImage();
-                  },
-                  style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent[00]),
-                  child: Text("Select Image")),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 50,
-                width: 330,
-                child: event_name,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                width: 330,
-                child: location,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                width: 330,
-                child: discription,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                width: 330,
-                child: dateTimeField,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                width: 330,
-                child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(0, 242, 245, 248)),
-                    icon: Icon(
-                      Icons.punch_clock,
-                      color: Colors.deepPurple,
-                    ),
-                    onPressed: _show,
-                    label: Text(
-                      _selectedTime != null ? _selectedTime! : 'Select Time',
-                      style: const TextStyle(
-                          fontSize: 30, color: Colors.deepPurple),
-                    )),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(primary: Colors.purpleAccent),
-                  onPressed: () {
-                    uploadFunction(_SelectedFiles);
-                  },
-                  icon: Icon(
-                    Icons.file_upload,
-                  ),
-                  label: Text("Upload Event")),
-            ],
+      body: ModalProgressHUD(
+        inAsyncCall: loading,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                _SelectedFiles.length == 0
+                    ? const Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+                        child: Text(
+                          "*select only one image",
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 16, 15, 0),
+                        child: Image.file(File(_SelectedFiles[0].path),
+                            width: 250, height: 250, fit: BoxFit.fill),
+                      ),
+                OutlinedButton(
+                    onPressed: () {
+                      SelectImage();
+                    },
+                    style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.pinkAccent[00]),
+                    child: Text("Select Image")),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 50,
+                  width: 330,
+                  child: event_name,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: 330,
+                  child: location,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: 330,
+                  child: discription,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: 330,
+                  child: price,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: 330,
+                  child: dateTimeField,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 40,
+                  //width: 330,
+                  child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
+                      icon: Icon(
+                        Icons.access_time,
+                        color: Colors.white,
+                      ),
+                      onPressed: _show,
+                      label: Text(
+                        _selectedTime != null ? _selectedTime! : 'Select Time',
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
+                      )),
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  height: 50,
+                  child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          elevation: 20,
+                          primary: Theme.of(context).primaryColor),
+                      onPressed: () async {
+                        setState(() {
+                          loading = true; // your loader has started to load
+                        });
+
+                        await Future.delayed(const Duration(seconds: 2), () {});
+
+                        setState(() {
+                          loading =
+                              false; // your loder will stop to finish after the data fetch
+                        });
+                        uploadFunction(_SelectedFiles);
+
+                        await Future.delayed(const Duration(seconds: 5), () {});
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      },
+                      icon: Icon(
+                        Icons.file_upload_outlined,
+                      ),
+                      label: Text(
+                        "Upload Event",
+                        style: TextStyle(fontSize: 15),
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -301,17 +375,13 @@ class _upload_DetailsState extends State<upload_Details> {
               label: "Profile",
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline_rounded,
-                    color: Colors.deepPurple),
+                icon:
+                    Icon(Icons.add_circle_outline_rounded, color: Colors.black),
                 label: "Add Event",
                 backgroundColor: Colors.black),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt, color: Colors.black),
                 label: "Lists",
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.logout, color: Colors.black),
-                label: "Logout",
                 backgroundColor: Colors.black),
           ],
           currentIndex: _currentIndex,
@@ -363,7 +433,7 @@ class _upload_DetailsState extends State<upload_Details> {
     if (newSelectedDate != null) {
       _selectedDate = newSelectedDate;
       endDateTimeEditingController
-        ..text = DateFormat.yMMMd().format(_selectedDate!)
+        ..text = DateFormat("yyyy-MM-dd").format(_selectedDate!)
         ..selection = TextSelection.fromPosition(TextPosition(
             offset: endDateTimeEditingController.text.length,
             affinity: TextAffinity.upstream));
@@ -380,6 +450,9 @@ class _upload_DetailsState extends State<upload_Details> {
     Reference firebaseStorageRef =
         FirebaseStorage.instance.ref().child("Party").child(_image.name);
     UploadTask uploadTask = firebaseStorageRef.putFile(File(_image.path));
+    setState(() {
+      loading = true;
+    });
     TaskSnapshot taskSnapshot = await uploadTask;
     url = (await taskSnapshot.ref.getDownloadURL());
     print(url);
@@ -390,11 +463,12 @@ class _upload_DetailsState extends State<upload_Details> {
     party.uid = user!.uid;
     party.party_name = EventEditingcontroller.text;
     party.image = url;
+    party.price = int.parse(priceEditingcontroller.text);
     party.location = locationEditingcontroller.text;
     party.discription = discriptionEditingcontroller.text;
     party.date = endDateTimeEditingController.text;
     party.time = _selectedTime!.toString();
-    party.price = count;
+    party.email = user!.email;
 
     await firebaseFirestore
         .collection("party")
@@ -403,9 +477,13 @@ class _upload_DetailsState extends State<upload_Details> {
 
     count += 1;
 
+    setState(() {
+      loading = false;
+    });
+
     print(count);
 
-    Fluttertoast.showToast(msg: "updated Successfully");
+    Fluttertoast.showToast(msg: "Updated Successfully");
   }
 
   Future<void> SelectImage() async {
@@ -417,9 +495,9 @@ class _upload_DetailsState extends State<upload_Details> {
       if (imgs!.isNotEmpty) {
         _SelectedFiles.addAll(imgs);
       }
-      print("List of selected Images : " + imgs.length.toString());
+      print("List of Selected Images : " + imgs.length.toString());
     } catch (e) {
-      print("Something worng : " + e.toString());
+      print("Something wrong : " + e.toString());
     }
     setState(() {});
   }

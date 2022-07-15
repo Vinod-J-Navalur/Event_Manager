@@ -41,8 +41,8 @@
 25-->[androidx.core:core:1.8.0] C:\Users\vinod\.gradle\caches\transforms-3\90b3a00dd5a4ef6bca7971e580b4b2d0\transformed\core-1.8.0\AndroidManifest.xml:24:18-86
 26        android:icon="@mipmap/ic_launcher"
 26-->D:\AndroidStudioProjects\Event_organizer\android\app\src\main\AndroidManifest.xml:9:9-43
-27        android:label="event_organizer" >
-27-->D:\AndroidStudioProjects\Event_organizer\android\app\src\main\AndroidManifest.xml:7:9-40
+27        android:label="Event Manager" >
+27-->D:\AndroidStudioProjects\Event_organizer\android\app\src\main\AndroidManifest.xml:7:9-38
 28        <activity
 28-->D:\AndroidStudioProjects\Event_organizer\android\app\src\main\AndroidManifest.xml:10:9-30:20
 29            android:name="com.example.event_organizer.MainActivity"

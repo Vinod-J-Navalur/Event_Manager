@@ -14,6 +14,7 @@ import 'package:event_organizer/model/ui_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../model/datetime_utils.dart';
 import 'login.dart';
 
 class EventDetailPage extends StatefulWidget {
@@ -256,8 +257,15 @@ class _EventDetailPageState extends State<EventDetailPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text("date"),
-              Text("date"),
+              Text(
+                DateTimeUtils.getMonth(DateTime.parse(event.date.toString())),
+                style: monthStyle,
+              ),
+              Text(
+                DateTimeUtils.getDayOfMonth(
+                    DateTime.parse(event.date.toString())),
+                style: titleStyle,
+              ),
             ],
           ),
         ),
@@ -266,9 +274,12 @@ class _EventDetailPageState extends State<EventDetailPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("date"),
+            Text(
+              DateTimeUtils.getDayOfWeek(DateTime.parse(event.date.toString())),
+              style: titleStyle,
+            ),
             UIHelper.verticalSpace(4),
-            const Text("10:00 - 12:00 PM", style: subtitleStyle),
+            Text((event.time).toString(), style: monthStyle),
           ],
         ),
         const Spacer(),
@@ -307,7 +318,7 @@ class _EventDetailPageState extends State<EventDetailPage>
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(event.uid.toString(), style: titleStyle),
+            Text(event.email.toString(), style: titleStyle),
             UIHelper.verticalSpace(4),
             const Text("Organizer", style: subtitleStyle),
           ],
@@ -436,7 +447,7 @@ class _EventDetailPageState extends State<EventDetailPage>
     });
 
     if (flag == 1) {
-      Fluttertoast.showToast(msg: "Event Already Booked Profile> My Events");
+      Fluttertoast.showToast(msg: "Event Already Booked Profile > My Events");
     } else {
       uploadFile();
     }

@@ -82,6 +82,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="D:\AndroidStudioProjects\Event_organizer\android@@:modal_progress_hud_nsn::release"
+      jars="D:\AndroidStudioProjects\Event_organizer\build\modal_progress_hud_nsn\.transforms\dde4b51481c73d127e846e0abaeb6447\transformed\out\jars\classes.jar"
+      resolved="com.walle.modal_progress_hud_nsn:modal_progress_hud_nsn:unspecified"
+      folder="D:\AndroidStudioProjects\Event_organizer\build\modal_progress_hud_nsn\.transforms\dde4b51481c73d127e846e0abaeb6447\transformed\out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="D:\AndroidStudioProjects\Event_organizer\android@@:file_picker::release"
       jars="D:\AndroidStudioProjects\Event_organizer\build\file_picker\.transforms\ca2b75a3ebe7bd9182230f21341b04e2\transformed\out\jars\classes.jar"
       resolved="com.mr.flutter.plugin.filepicker:file_picker:unspecified"

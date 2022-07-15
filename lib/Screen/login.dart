@@ -1,10 +1,13 @@
 import 'package:event_organizer/Screen/homescreen.dart';
+import 'package:event_organizer/Screen/mainhome.dart';
 import 'package:event_organizer/Screen/multihost.dart';
 import 'package:event_organizer/Screen/registration.dart';
+import 'package:event_organizer/constant/loading.dart';
 import 'package:event_organizer/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class loginscreen extends StatefulWidget {
   const loginscreen({Key? key}) : super(key: key);
@@ -15,6 +18,8 @@ class loginscreen extends StatefulWidget {
 
 class _loginscreenState extends State<loginscreen> {
   final _formkey = GlobalKey<FormState>();
+
+  bool loading = false;
 
   final TextEditingController emailcontroller = new TextEditingController();
   final TextEditingController passwordcontroller = new TextEditingController();
@@ -48,13 +53,14 @@ class _loginscreenState extends State<loginscreen> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         fillColor: Colors.grey[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Email',
         prefixIcon: Icon(
-          Icons.mail,
+          Icons.alternate_email,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+        //hintText: "Email",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -80,13 +86,14 @@ class _loginscreenState extends State<loginscreen> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Password',
         prefixIcon: Icon(
-          Icons.vpn_key,
+          Icons.password_outlined,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
+        //hintText: "Password",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -98,6 +105,7 @@ class _loginscreenState extends State<loginscreen> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.purpleAccent,
       child: MaterialButton(
+        elevation: 20,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
@@ -113,71 +121,81 @@ class _loginscreenState extends State<loginscreen> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: SingleChildScrollView(
-              child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36),
-              child: Form(
-                  key: _formkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 75,
-                        backgroundImage: AssetImage("assets/party.png"),
-                      ),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      emailfield,
-                      SizedBox(
-                        height: 25,
-                      ),
-                      passwordfield,
-                      SizedBox(
-                        height: 45,
-                      ),
-                      logiinButton,
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account ? ",
-                            style: TextStyle(
-                              color: Colors.deepPurple,
-                            ),
+        body: ModalProgressHUD(
+          inAsyncCall: loading,
+          child: Center(
+            child: SingleChildScrollView(
+                child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(36),
+                child: Form(
+                    key: _formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Hero(
+                          tag: 'logo',
+                          child: CircleAvatar(
+                            radius: 150,
+                            backgroundImage: AssetImage("assets/party.png"),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegistrationScreen(),
-                                  ));
-                            },
-                            child: Text(
-                              "SignUp",
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        emailfield,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        passwordfield,
+                        SizedBox(
+                          height: 45,
+                        ),
+                        logiinButton,
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have an account ? ",
                               style: TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
+                                color: Colors.deepPurple,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  )),
-            ),
-          )),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegistrationScreen(),
+                                    ));
+                              },
+                              child: Text(
+                                "SignUp",
+                                style: TextStyle(
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
+              ),
+            )),
+          ),
         ));
   }
 
   void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
+      setState(() {
+        loading = true;
+      });
       try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
@@ -187,6 +205,9 @@ class _loginscreenState extends State<loginscreen> {
                       MaterialPageRoute(builder: (context) => HomeScreen()))
                 });
       } catch (e) {
+        setState(() {
+          loading = false;
+        });
         Fluttertoast.showToast(msg: "Invalid Credentials");
       }
     }

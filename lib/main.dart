@@ -1,5 +1,7 @@
 import 'package:event_organizer/Screen/homescreen.dart';
 import 'package:event_organizer/Screen/login.dart';
+import 'package:event_organizer/Screen/mainhome.dart';
+import 'package:event_organizer/Screen/navigation.dart';
 import 'package:event_organizer/host/event_fetcher.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login and email ',
+      title: 'Event Manager',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: loginscreen(),
-      home: HomeScreen(),
+      home: loginscreen(),
+      //home: Navvbar(),
       //home: Event_Fetcher(),
     );
   }

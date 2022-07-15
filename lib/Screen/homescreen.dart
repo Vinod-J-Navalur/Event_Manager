@@ -24,8 +24,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final Stream<QuerySnapshot> party =
-      FirebaseFirestore.instance.collection('party').snapshots();
+  final Stream<QuerySnapshot> party = FirebaseFirestore.instance
+      .collection('party')
+      .orderBy('date', descending: true)
+      .snapshots();
 
   late ScrollController scrollController;
   late AnimationController controller;
@@ -119,13 +121,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   );
                   Evnt eve = Evnt(
+                      uid: data.docs[index]['uid'],
+                      email: data.docs[index]['email'],
                       party_name: data.docs[index]['party_name'],
                       image: data.docs[index]['image'],
                       location: data.docs[index]['location'],
                       discription: data.docs[index]['discription'],
                       date: data.docs[index]['date'],
                       time: data.docs[index]['time'],
-                      price: 0);
+                      price: data.docs[index]['index']);
                   event.add(eve);
                   return InkWell(
                       child: Card(
@@ -152,8 +156,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: <Widget>[
                                 UIHelper.verticalSpace(8),
                                 Text(
-                                    DateTimeUtils.getFullDate(
-                                        DateTime.parse("2001-06-28")),
+                                    DateTimeUtils.getFullDate(DateTime.parse(
+                                        "${data.docs[index]['date']}")),
                                     style: monthStyle),
                                 UIHelper.verticalSpace(8),
                                 Text("${data.docs[index]['party_name']}",
@@ -200,23 +204,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               label: "Profile",
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline_rounded,
-                    color: Colors.deepPurple),
+                icon:
+                    Icon(Icons.add_circle_outline_rounded, color: Colors.black),
                 label: "Add Event",
                 backgroundColor: Colors.black),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt, color: Colors.black),
                 label: "Lists",
                 backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.logout, color: Colors.black),
-                label: "Logout",
-                backgroundColor: Colors.black),
           ],
-          currentIndex: _currentIndex,
+          //currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Colors.black,
+          //selectedItemColor: Theme.of(context).primaryColor,
+          //unselectedItemColor: Colors.black,
           onTap: (index) {
             setState(() {
               _currentIndex = index;

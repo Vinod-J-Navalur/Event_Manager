@@ -7,6 +7,7 @@ import 'package:event_organizer/Screen/login.dart';
 import 'package:event_organizer/Screen/multihost.dart';
 import 'package:event_organizer/model/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -39,6 +40,7 @@ class _user_profileState extends State<user_profile> {
 
   String? image;
 
+  List<String> strs = [];
   FirebaseAuth _auth = FirebaseAuth.instance;
   User? user = FirebaseAuth.instance.currentUser;
   final _formKey = GlobalKey<FormState>();
@@ -97,16 +99,19 @@ class _user_profileState extends State<user_profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                SizedBox(
+                  height: 40,
+                ),
                 CircleAvatar(
                   radius: 65,
                   backgroundImage: AssetImage("assets/profile.png"),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
-                const SizedBox(height: 20),
+                //const SizedBox(height: 20),
                 Card(
-                  elevation: 20.0,
+                  elevation: 5.0,
                   color: Colors.white,
                   margin: EdgeInsets.symmetric(
                     vertical: 10.0,
@@ -128,9 +133,9 @@ class _user_profileState extends State<user_profile> {
                 Divider(
                   color: Colors.deepPurple,
                 ),
-                const SizedBox(height: 5),
+                //const SizedBox(height: 5),
                 Card(
-                  elevation: 20.0,
+                  elevation: 5.0,
                   color: Colors.white,
                   margin: EdgeInsets.symmetric(
                     vertical: 10.0,
@@ -152,9 +157,9 @@ class _user_profileState extends State<user_profile> {
                 Divider(
                   color: Colors.deepPurple,
                 ),
-                const SizedBox(height: 5),
+                //const SizedBox(height: 5),
                 Card(
-                  elevation: 20.0,
+                  elevation: 5.0,
                   color: Colors.white,
                   margin: EdgeInsets.symmetric(
                     vertical: 10.0,
@@ -176,9 +181,9 @@ class _user_profileState extends State<user_profile> {
                 Divider(
                   color: Colors.deepPurple,
                 ),
-                const SizedBox(height: 5),
+                //const SizedBox(height: 5),
                 Card(
-                  elevation: 20.0,
+                  elevation: 5.0,
                   color: Colors.white,
                   margin: EdgeInsets.symmetric(
                     vertical: 10.0,
@@ -200,31 +205,68 @@ class _user_profileState extends State<user_profile> {
                 Divider(
                   color: Colors.deepPurple,
                 ),
-                const SizedBox(height: 20),
+
+                //const SizedBox(height: 20),
                 Container(
-                    padding: EdgeInsets.only(top: 20),
-                    height: 60.0,
-                    width: 100.0,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: const StadiumBorder(),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
-                        primary: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {
+                    margin: EdgeInsets.only(top: 30),
+                    //width: 100.0,
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 10),
+                          height: 60.0,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 20,
+                              shape: const StadiumBorder(),
+                              primary: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: () {
+                              SizedBox(
+                                height: 100.0,
+                              );
+                              int count = 0;
+                              showDialog(
+                                  context: context,
+                                  builder: (_) => eventinfo(0));
+                              //print(strs);
+                            },
+                            child: Text(
+                              "My Events",
+                              style: titleStyle.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ),
                         SizedBox(
-                          height: 100.0,
-                        );
-                        int count = 0;
-                        showDialog(
-                            context: context, builder: (_) => eventinfo(0));
-                      },
-                      child: Text(
-                        "Guest List",
-                        style: titleStyle.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.normal),
-                      ),
+                          width: 100.0,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 10),
+                          height: 60.0,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 20,
+                                shape: const StadiumBorder(),
+                                primary: Colors.white,
+                              ),
+                              onPressed: () {
+                                _signOut();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  CupertinoPageRoute(
+                                      builder: (context) => loginscreen()),
+                                  (_) => false,
+                                );
+                              },
+                              child: Text("  Log Out  ",
+                                  style: titleStyle.copyWith(
+                                      color: Colors.blue,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal))),
+                        )
+                      ],
                     )),
               ],
             ),
@@ -244,17 +286,13 @@ class _user_profileState extends State<user_profile> {
               label: "Profile",
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline_rounded,
-                    color: Colors.deepPurple),
+                icon:
+                    Icon(Icons.add_circle_outline_rounded, color: Colors.black),
                 label: "Add Event",
                 backgroundColor: Colors.black),
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt, color: Colors.black),
                 label: "Lists",
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.logout, color: Colors.black),
-                label: "Logout",
                 backgroundColor: Colors.black),
           ],
           currentIndex: _currentIndex,
@@ -275,7 +313,7 @@ class _user_profileState extends State<user_profile> {
   Widget eventinfo(int count) {
     List<dynamic> guests = [];
     int ind = -1;
-    print("reached");
+    //print("reached");
     return Container(
       padding: EdgeInsets.all(20.0),
       margin: EdgeInsets.only(top: 100.0),
@@ -305,22 +343,42 @@ class _user_profileState extends State<user_profile> {
                     ind = -1;
                   }
 
-                  List<String> strs = guests.map((e) => e.toString()).toList();
+                  strs = guests.map((e) => e.toString()).toList();
 
-                  print(strs);
-                  print(count);
+                  if (index == data.size - 1 && strs.isEmpty) {
+                    return AlertDialog(
+                      title: Text('Oops !'),
+                      content: Text('You haven\'t Booked Any Event'),
+                      actions: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()));
+                            },
+                            child: Text('Book'))
+                      ],
+                    );
+                  }
+
+                  //print(strs);
+                  //print(count);
                   if (count == 1) {
                     count += 1;
                     return eve(strs);
                   }
 
-                  return Container();
+                  print(count);
+
+                  return SizedBox.shrink();
                 });
           }),
     );
   }
 
   Widget eve(List<String> eves) {
+    print(strs);
     return Column(children: [
       ListView.builder(
           shrinkWrap: true,
@@ -332,17 +390,24 @@ class _user_profileState extends State<user_profile> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    Card(
-                      child: Text(
-                        ('Event ' +
-                            (index + 1).toString() +
-                            ':  ' +
-                            eves[index]),
-                        style: titleStyle,
+                    Container(
+                      child: Card(
+                        elevation: 5.0,
+                        color: Colors.white,
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.event,
+                            //color: Theme.of(context).primaryColor,
+                          ),
+                          title: Text(
+                            ('Event ' +
+                                (index + 1).toString() +
+                                ':  ' +
+                                eves[index]),
+                            style: titleStyle,
+                          ),
+                        ),
                       ),
-                    ),
-                    Divider(
-                      color: Colors.deepPurple,
                     ),
                   ],
                 ),
@@ -351,5 +416,9 @@ class _user_profileState extends State<user_profile> {
             ;
           }),
     ]);
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

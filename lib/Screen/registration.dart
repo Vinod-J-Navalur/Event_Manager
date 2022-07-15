@@ -5,6 +5,7 @@ import 'package:event_organizer/model/UserModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -15,6 +16,8 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formkey = GlobalKey<FormState>();
+
+  bool loading = false;
 
   final _auth = FirebaseAuth.instance;
   final firstNameEditingcontroller = new TextEditingController();
@@ -35,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         RegExp regex = RegExp(r'^.{3,}$');
 
         if (value!.isEmpty) {
-          return ("First Namecannot be empty");
+          return ("First Name cannot be empty");
         }
         if (!regex.hasMatch(value)) {
           return ("Please Enter name (Min 3 Char)");
@@ -47,13 +50,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: "Name",
         prefixIcon: Icon(
           Icons.account_circle,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "First Name",
+        //hintText: "First Name",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -62,7 +66,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final addharid = TextFormField(
       autofocus: false,
       controller: addharidEditingcontroller,
-      keyboardType: TextInputType.name,
+      keyboardType: TextInputType.number,
       validator: (value) {
         RegExp regex = RegExp(r'^.{10,}$');
 
@@ -79,13 +83,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'AADHAR Number',
         prefixIcon: Icon(
-          Icons.account_circle,
+          Icons.document_scanner,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Addhar No",
+        //hintText: "Addhar No",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -112,13 +117,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Phone Number',
         prefixIcon: Icon(
-          Icons.account_circle,
+          Icons.phone_android,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Mobile No",
+        //hintText: "Mobile No",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -172,13 +178,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Email Id',
         prefixIcon: Icon(
-          Icons.mail,
+          Icons.alternate_email,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+        //hintText: "Email",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -204,13 +211,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: 'Password',
         prefixIcon: Icon(
-          Icons.vpn_key,
+          Icons.password,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
+        //hintText: "Password",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -235,13 +243,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         fillColor: Colors.pinkAccent[00],
-        filled: true,
+        //filled: true,
+        labelText: "Confirm Password",
         prefixIcon: Icon(
-          Icons.vpn_key,
+          Icons.password_outlined,
           color: Colors.deepPurple,
         ),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Confirm Password",
+        //hintText: "Confirm Password",
         hintStyle:
             TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -255,7 +264,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {
+        onPressed: () async {
+          await Future.delayed(const Duration(seconds: 2), () {});
           signUp(emailEditingcontroller.text, passwordEditingcontroller.text);
         },
         child: Text(
@@ -268,69 +278,78 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: SingleChildScrollView(
-              child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36),
-              child: Form(
-                  key: _formkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 75,
-                        backgroundImage: AssetImage("assets/party.png"),
-                      ),
-                      SizedBox(
-                        height: 45,
-                      ),
-                      firstNamefield,
-                      SizedBox(
-                        height: 20,
-                      ),
-                      secondNamefield,
-                      SizedBox(
-                        height: 20,
-                      ),
-                      emailfield,
-                      SizedBox(
-                        height: 20,
-                      ),
-                      mobile,
-                      SizedBox(
-                        height: 20,
-                      ),
-                      addharid,
-                      SizedBox(
-                        height: 20,
-                      ),
-                      passwordfield,
-                      SizedBox(
-                        height: 20,
-                      ),
-                      confirmpasswordfield,
-                      SizedBox(
-                        height: 25,
-                      ),
-                      signupButton
-                    ],
-                  )),
-            ),
-          )),
+        body: ModalProgressHUD(
+          inAsyncCall: loading,
+          child: Center(
+            child: SingleChildScrollView(
+                child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(36),
+                child: Form(
+                    key: _formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Hero(
+                          tag: 'logo',
+                          child: Image.asset(
+                            'assets/party.png',
+                            //width: 200,
+                            height: 250,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 45,
+                        ),
+                        firstNamefield,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        emailfield,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        mobile,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        addharid,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        passwordfield,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        confirmpasswordfield,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        signupButton
+                      ],
+                    )),
+              ),
+            )),
+          ),
         ));
   }
 
   void signUp(String email, String password) async {
     try {
       if (_formkey.currentState!.validate()) {
+        setState(() {
+          loading = true;
+        });
         await _auth
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) => {postDetailsToFirestore()});
       }
     } catch (e) {
+      setState(() {
+        loading = false;
+      });
       Fluttertoast.showToast(msg: "Already present");
     }
   }
@@ -346,7 +365,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.addhar = addharidEditingcontroller.text;
     userModel.mobileno = mobilenoEditingcontroller.text;
     userModel.firstName = firstNameEditingcontroller.text;
-    userModel.secondName = secondNameEditingcontroller.text;
+    userModel.secondName = "dummy";
     userModel.party_name = [''];
 
     await firebaseFirestore
@@ -354,6 +373,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .doc(user.uid)
         .set(userModel.toMap());
 
-    Fluttertoast.showToast(msg: "Registered Successfull");
+    Fluttertoast.showToast(msg: "Registered Successfully");
+  }
+
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new CircularProgressIndicator(),
+              new Text("Loading"),
+            ],
+          ),
+        );
+      },
+    );
+    new Future.delayed(new Duration(seconds: 3), () {
+      Navigator.pop(context); //pop dialog
+    });
   }
 }

@@ -6,6 +6,7 @@ class Evnt {
   String? discription;
   String? date;
   String? time;
+  String? email;
   int? price;
 
   Evnt({
@@ -16,6 +17,7 @@ class Evnt {
     this.discription,
     this.date,
     this.time,
+    this.email,
     this.price,
   });
 }

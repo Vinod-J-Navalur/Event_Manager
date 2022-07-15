@@ -12,6 +12,7 @@ import 'package:event_organizer/model/ui_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../model/datetime_utils.dart';
 import 'login.dart';
 
 extension StringExtension on String {
@@ -259,8 +260,15 @@ class _HostedEventDetailPageState extends State<HostedEventDetailPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text("date"),
-              Text("date"),
+              Text(
+                DateTimeUtils.getMonth(DateTime.parse(event.date.toString())),
+                style: monthStyle,
+              ),
+              Text(
+                DateTimeUtils.getDayOfMonth(
+                    DateTime.parse(event.date.toString())),
+                style: titleStyle,
+              ),
             ],
           ),
         ),
@@ -269,9 +277,12 @@ class _HostedEventDetailPageState extends State<HostedEventDetailPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("date"),
+            Text(
+              DateTimeUtils.getDayOfWeek(DateTime.parse(event.date.toString())),
+              style: titleStyle,
+            ),
             UIHelper.verticalSpace(4),
-            const Text("10:00 - 12:00 PM", style: subtitleStyle),
+            Text((event.time).toString(), style: monthStyle),
           ],
         ),
         const Spacer(),
@@ -310,7 +321,7 @@ class _HostedEventDetailPageState extends State<HostedEventDetailPage>
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(event.uid.toString(), style: titleStyle),
+            Text(event.email.toString(), style: titleStyle),
             UIHelper.verticalSpace(4),
             const Text("Organizer", style: subtitleStyle),
           ],
@@ -405,42 +416,76 @@ class _HostedEventDetailPageState extends State<HostedEventDetailPage>
           }
           final data = snapshot.requireData;
           int count = 0;
-          return ListView.builder(
-              itemCount: data.size,
-              itemBuilder: (context, index) {
-                // print(index.toInt());
+          return Column(
+            children: [
+              SizedBox(
+                height: 200,
+              ),
+              ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: data.size,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    // print(index.toInt());
 
-                guests = data.docs[index]['party_name'];
+                    guests = data.docs[index]['party_name'];
 
-                List<String> strs = guests.map((e) => e.toString()).toList();
+                    List<String> strs =
+                        guests.map((e) => e.toString()).toList();
 
-                print(strs);
+                    print(strs);
 
-                if (strs.contains(event.party_name.toString())) {
-                  return SingleChildScrollView(
-                    child: Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          //Card(child: Text('The Guest names: ')),
-                          Card(
-                            child: Text(
-                              'Guest : ' +
-                                  data.docs[index]['firstName'].toString(),
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-                          Divider(
-                            color: Colors.deepPurple,
-                          ),
+                    if (count < 1 && index == data.size - 1) {
+                      return AlertDialog(
+                        title: Text('☹ No Bookings !'),
+                        content: Text('Don\'t Loose Hope Yet'),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Quit'))
                         ],
-                      ),
-                    ),
-                  );
-                }
+                      );
+                    }
 
-                return Container();
-              });
+                    if (strs.contains(event.party_name.toString())) {
+                      count += 1;
+
+                      return SingleChildScrollView(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                            children: [
+                              //Card(child: Text('The Guest names: ')),
+                              Container(
+                                child: Card(
+                                  elevation: 5.0,
+                                  color: Colors.white,
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.person,
+                                      //color: Theme.of(context).primaryColor,
+                                    ),
+                                    title: Text(
+                                      'Guest : ' +
+                                          data.docs[index]['firstName']
+                                              .toString(),
+                                      style: titleStyle,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
+                    return SizedBox.shrink();
+                  }),
+            ],
+          );
         });
   }
 }

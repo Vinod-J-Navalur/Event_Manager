@@ -6,6 +6,7 @@ class Party {
   String? discription;
   String? date;
   String? time;
+  String? email;
   int? price;
 
   Party({
@@ -16,6 +17,7 @@ class Party {
     this.discription,
     this.date,
     this.time,
+    this.email,
     this.price,
   });
 
@@ -28,6 +30,7 @@ class Party {
         discription: map['discription'],
         date: map['date'],
         time: map['time'],
+        email: map['email'],
         price: map['price']);
   }
 
@@ -40,6 +43,7 @@ class Party {
       'discription': discription,
       'date': date,
       'time': time,
+      'email': email,
       'index': price,
     };
   }
